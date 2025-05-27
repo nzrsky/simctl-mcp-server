@@ -4,28 +4,42 @@ A Model Context Protocol (MCP) server that provides structured access to iOS Sim
 
 ## Installation
 
-### Method 1: Using uvx (Recommended)
+### Method 1: Using uvx (Recommended for published package)
 
 1. **Prerequisites**:
-   - Python 3.8+
+   - Python 3.13+
    - Xcode with Command Line Tools installed
    - [uvx](https://github.com/astral-sh/uv): `curl -LsSf https://astral.sh/uv/install.sh | sh`
 
-2. **Run directly with uvx**:
+2. **Run directly with uvx** (when published to PyPI):
    ```bash
-   uvx --from git+https://github.com/nzrsky/simctl-mcp-server simctl-mcp-server
+   uvx simctl-mcp-server
    ```
 
-### Method 2: Manual Installation
+### Method 2: Local Development Installation
 
 1. **Prerequisites**:
-   - Python 3.8+
+   - Python 3.13+
    - Xcode with Command Line Tools installed
-   - MCP Python SDK: `pip install mcp`
 
-2. **Save the server script** as `simctl-mcp-server.py` and make it executable:
+2. **Clone and install**:
    ```bash
-   chmod +x simctl-mcp-server.py
+   git clone https://github.com/nzrsky/simctl-mcp-server
+   cd simctl-mcp-server
+   pip install .
+   ```
+
+3. **Run the server**:
+   ```bash
+   simctl-mcp-server
+   ```
+
+### Method 3: Build from Source
+
+1. **Build the wheel**:
+   ```bash
+   python -m build --wheel
+   pip install dist/simctl_mcp_server-0.1.0-py3-none-any.whl
    ```
 
 ## Configuration
@@ -38,22 +52,22 @@ Add to your `~/Library/Application Support/Claude/claude_desktop_config.json`:
 {
   "mcpServers": {
     "simctl": {
-      "command": "python3",
-      "args": ["/path/to/simctl-mcp-server.py"],
+      "command": "simctl-mcp-server",
+      "args": [],
       "env": {}
     }
   }
 }
 ```
 
-Or if using uvx:
+Or if using uvx (when published):
 
 ```json
 {
   "mcpServers": {
     "simctl": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/nzrsky/simctl-mcp-server", "simctl-mcp-server"],
+      "args": ["simctl-mcp-server"],
       "env": {}
     }
   }
@@ -69,22 +83,22 @@ Or if using uvx:
 {
   "mcp.servers": {
     "simctl": {
-      "command": "uvx",
-      "args": ["--from", "git+https://github.com/nzrsky/simctl-mcp-server", "simctl-mcp-server"],
+      "command": "simctl-mcp-server",
+      "args": [],
       "env": {}
     }
   }
 }
 ```
 
-Or if using manual installation:
+Or if using uvx (when published):
 
 ```json
 {
   "mcp.servers": {
     "simctl": {
-      "command": "python3",
-      "args": ["/path/to/simctl-mcp-server.py"],
+      "command": "uvx",
+      "args": ["simctl-mcp-server"],
       "env": {}
     }
   }
@@ -98,14 +112,14 @@ Or if using manual installation:
 
 The server runs on stdio, so you can invoke it directly:
 
-**With uvx:**
+**With installed package:**
 ```bash
-uvx --from git+https://github.com/nzrsky/simctl-mcp-server simctl-mcp-server
+simctl-mcp-server
 ```
 
-**With manual installation:**
+**With uvx (when published):**
 ```bash
-python3 simctl-mcp-server.py
+uvx simctl-mcp-server
 ```
 
 ## Available Tools
